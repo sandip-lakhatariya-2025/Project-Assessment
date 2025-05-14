@@ -29,4 +29,9 @@ public class LoginController : Controller
         TempData["error"] = result.message;
         return RedirectToAction("Index", "Login");
     }
+
+    [HttpGet]
+    public IActionResult Error() {
+        return View();
+    }
 }
