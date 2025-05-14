@@ -37,7 +37,8 @@ public class LoginService : ILoginService
                 u => new UserViewModel {
                     Email = u.Email,
                     UserName = u.UserName,
-                    Password = u.Password
+                    Password = u.Password,
+                    RoleName = u.Role.RoleName
                 }
             );
 
@@ -46,7 +47,7 @@ public class LoginService : ILoginService
                     return(false, $"Invalid Login Credentials.");
                 }
 
-                string jwttoken = GenerateJWTToken(existingUser.UserName, "Admin");
+                string jwttoken = GenerateJWTToken(existingUser.UserName, existingUser.RoleName!);
 
                 httpContext.Response.Cookies.Append("JwtCookie", jwttoken, new CookieOptions{
                     HttpOnly = true,

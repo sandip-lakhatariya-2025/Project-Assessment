@@ -24,4 +24,6 @@ public class UserViewModel
     public string Password { get; set; } = null!;
 
     public bool IsRememberMe { get; set; }
+
+    public string? RoleName { get; set; }
 }
