@@ -52,7 +52,7 @@ public class AuthService : IAuthService
                 httpContext.Response.Cookies.Append("JwtCookie", jwttoken, new CookieOptions{
                     HttpOnly = true,
                     Secure = true,
-                    Expires = user.IsRememberMe ? DateTime.UtcNow.AddMinutes(10) : DateTime.UtcNow.AddMinutes(1)
+                    Expires = user.IsRememberMe ? DateTime.UtcNow.AddDays(15) : DateTime.UtcNow.AddDays(1)
                 });
 
                 return (true, "User Logged in successfully.");
@@ -82,7 +82,7 @@ public class AuthService : IAuthService
 
         SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtToken:Key"]!));
         SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        DateTime expires =  isRememberMe ? DateTime.UtcNow.AddMinutes(10) : DateTime.UtcNow.AddMinutes(1);
+        DateTime expires =  isRememberMe ? DateTime.UtcNow.AddDays(15) : DateTime.UtcNow.AddDays(1);
 
         var token = new JwtSecurityToken(
             _configuration["JwtToken:Issuer"],

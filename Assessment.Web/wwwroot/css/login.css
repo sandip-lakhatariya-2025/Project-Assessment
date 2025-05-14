@@ -7,6 +7,24 @@
     border-radius: 0;
 }
 
+.password-div i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+#password-div i {
+    cursor: pointer;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+
 @media (min-width: 992px) {
     .login-img {
         height: 400px;
