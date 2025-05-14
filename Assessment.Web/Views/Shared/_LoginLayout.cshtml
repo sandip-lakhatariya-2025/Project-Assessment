@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Assessment.Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Assessment.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -12,7 +13,7 @@
 <body>
     <partial name="_Notification" />
     <div class="container-fluid p-0">
-        <main role="main" class="bg-light min-vh-100 d-flex justify-content-center align-items-center">
+        <main role="main" class="bg-light min-vh-100 d-flex justify-content-center align-items-center p-3 p-md-5">
             @RenderBody()
         </main>
     </div>
