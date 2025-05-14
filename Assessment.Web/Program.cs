@@ -1,10 +1,17 @@
 using Assessment.DataAccess.Data;
+using Assessment.DataAccess.Repository;
+using Assessment.DataAccess.Repository.IRepository;
+using Assessment.Services;
+using Assessment.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var conn = builder.Configuration.GetConnectionString("DatabaseConnction");
-builder.Services.AddDbContext<MyDbContext>(q => q.UseNpgsql(conn));
+builder.Services.AddDbContext<MyDbContext>(q => q.UseNpgsql(conn, b => b.MigrationsAssembly("Assessment.Web")));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
