@@ -1,0 +1,34 @@
+@model UserViewModel
+
+@{
+    Layout= "_LoginLayout";
+}
+
+<div class="row bg-white shadow">
+    <div class="col-6">
+        <div class="d-flex justify-content-center p-5">
+            <img src="~/images/login.jpg" height="400px" alt="">
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="d-flex flex-column justify-content-center align-items-center p-5 h-100">
+            <div class="fs-3 fw-semibold mb-4">Login User</div>
+            <form action="" class="w-100">
+                <div class="form-floating">
+                    <input type="text" class="form-control mb-3" asp-for="Email" placeholder="Email">
+                    <label for="Email">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control mb-3" asp-for="Password" placeholder="Password">
+                    <label for="Password">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="d-flex">
+                    <input type="checkbox" class="form-check me-2 mb-3">Remember Me
+                </div>
+                <button class="btn btn-primary rounded-1 w-100">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
