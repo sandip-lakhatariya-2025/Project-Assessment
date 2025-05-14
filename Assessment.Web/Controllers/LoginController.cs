@@ -15,6 +15,10 @@ public class LoginController : Controller
 
     [HttpGet]
     public IActionResult Index() {
+        string? jwtToken = Request.Cookies["JwtCookie"];
+        if (!string.IsNullOrEmpty(jwtToken)) {
+            return RedirectToAction("Index", "Home");
+        }
         return View();
     }
 

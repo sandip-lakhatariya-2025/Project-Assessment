@@ -14,13 +14,13 @@ namespace Assessment.Services;
 public class LoginService : ILoginService
 {
 
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IConfiguration  _configuration;
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public LoginService(IUserRepository userRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) {
-        _userRepository = userRepository;
+    public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) {
+        _unitOfWork = unitOfWork;
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
     }
@@ -32,7 +32,14 @@ public class LoginService : ILoginService
 
         try
         {
-            UserViewModel? existingUser = await _userRepository.GetUserByEmail(user.Email);
+            UserViewModel? existingUser = await _unitOfWork.Users.GetFirstOrDefaultSelected(
+                u => u.Email.ToLower() == user.Email.ToLower(), 
+                u => new UserViewModel {
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    Password = u.Password
+                }
+            );
 
             if(existingUser != null) {
                 if(existingUser.Password != HashPassword(user.Password)) {

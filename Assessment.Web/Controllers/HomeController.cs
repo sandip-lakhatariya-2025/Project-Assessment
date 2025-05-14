@@ -6,13 +6,9 @@ namespace Assessment.Web.Controllers;
 
 public class HomeController : Controller
 {
+    [Authorize]
     public IActionResult Index()
     {
-        string token = Request.Cookies["JwtCookie"]!;
-
-        if(token == null) {
-            return RedirectToAction("Index", "Login");
-        }
         return View();
     }
 

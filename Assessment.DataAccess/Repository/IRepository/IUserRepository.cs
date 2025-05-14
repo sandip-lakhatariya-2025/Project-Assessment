@@ -1,8 +1,8 @@
+using Assessment.Models.Models;
 using Assessment.Models.ViewModel;
 
 namespace Assessment.DataAccess.Repository.IRepository;
 
-public interface IUserRepository
+public interface IUserRepository : IGenericRepository<User>
 {
-    Task<UserViewModel?> GetUserByEmail(string email);
 }
