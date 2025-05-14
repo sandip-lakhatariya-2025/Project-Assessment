@@ -15,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Assessment.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Assessment</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -37,27 +37,28 @@
         </nav>
     </header>
 
-    <!-- Modal -->
+    <!-- Logout Confirmation Modal Start -->
     <div class="modal fade" id="logoutConfirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5">Logout Confirmation</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="d-flex flex-column justify-content-center align-items-center">
-                <i class="bi bi-exclamation-triangle text-warning fs-1"></i>
-                <span>Are you sure you want to Logout ?</span>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Logout Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <i class="bi bi-exclamation-triangle text-warning fs-1"></i>
+                    <span>Are you sure you want to Logout ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary px-3" asp-controller="Auth" asp-action="Logout">Yes</a>
+                <button type="button" class="btn btn-outline-primary px-3" data-bs-dismiss="modal">No</button>
+            </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <a class="btn btn-primary px-3" asp-controller="Login" asp-action="Logout">Yes</a>
-            <button type="button" class="btn btn-outline-primary px-3" data-bs-dismiss="modal">No</button>
-        </div>
-        </div>
     </div>
-    </div>
+    <!-- Logout Confirmation Modal End -->
 
     <div class="container">
         <partial name="_Notification" />
@@ -68,9 +69,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - Assessment.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - Assessment - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

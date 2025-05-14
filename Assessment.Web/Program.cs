@@ -22,8 +22,8 @@ builder.Services.AddAuthentication(options => {
     options.Cookie.Name = "JwtCookie";
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-    options.LoginPath = "/Login/Index";
-    options.AccessDeniedPath = "/Login/Error";
+    options.LoginPath = "/Auth/Index";
+    options.AccessDeniedPath = "/Auth/Error";
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
     options.RequireHttpsMetadata = false; 
@@ -41,7 +41,7 @@ builder.Services.AddAuthentication(options => {
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -67,6 +67,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Index}/{id?}");
 
 app.Run();

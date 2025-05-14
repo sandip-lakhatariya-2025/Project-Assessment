@@ -2,17 +2,18 @@ using Assessment.Models.ViewModel;
 using Assessment.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assessment.Web.Controllers;
 
-public class LoginController : Controller
+public class AuthController : Controller
 {
 
-    private readonly ILoginService _loginService;
+    private readonly IAuthService _authService;
 
-    public LoginController(ILoginService loginService) {
-        _loginService = loginService;
+    public AuthController(IAuthService authService) {
+        _authService = authService;
     }
 
     [HttpGet]
@@ -27,15 +28,16 @@ public class LoginController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(UserViewModel user) {
 
-        var result = await _loginService.CheckLoginCredentials(user);
+        var result = await _authService.CheckLoginCredentials(user);
         if(result.isSuccess){
             TempData["success"] = result.message;
             return RedirectToAction("Index", "Home");
         }
         TempData["error"] = result.message;
-        return RedirectToAction("Index", "Login");
+        return RedirectToAction("Index", "Auth");
     }
 
+    [Authorize]
     public async Task<IActionResult> Logout() {
 
         string? jwtToken = Request.Cookies["JwtCookie"];
@@ -43,7 +45,7 @@ public class LoginController : Controller
             Response.Cookies.Delete("JwtCookie");
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             TempData["success"] = "User has been Logged out successfully.";
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Index", "Auth");
         }
         TempData["error"] = "Some error occured";
         return RedirectToAction("Index", "Home");

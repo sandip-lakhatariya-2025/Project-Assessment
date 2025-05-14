@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Assessment.Services;
 
-public class LoginService : ILoginService
+public class AuthService : IAuthService
 {
 
     private readonly IUnitOfWork _unitOfWork;
@@ -19,7 +19,7 @@ public class LoginService : ILoginService
 
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public LoginService(IUnitOfWork unitOfWork, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) {
+    public AuthService(IUnitOfWork unitOfWork, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) {
         _unitOfWork = unitOfWork;
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
@@ -47,12 +47,12 @@ public class LoginService : ILoginService
                     return(false, $"Invalid Login Credentials.");
                 }
 
-                string jwttoken = GenerateJWTToken(existingUser.UserName, existingUser.RoleName!);
+                string jwttoken = GenerateJWTToken(existingUser.UserName, existingUser.RoleName!, user.IsRememberMe);
 
                 httpContext.Response.Cookies.Append("JwtCookie", jwttoken, new CookieOptions{
                     HttpOnly = true,
                     Secure = true,
-                    Expires = user.IsRememberMe ? DateTime.Now.AddMinutes(10) : DateTime.Now.AddMinutes(1)
+                    Expires = user.IsRememberMe ? DateTime.UtcNow.AddMinutes(10) : DateTime.UtcNow.AddMinutes(1)
                 });
 
                 return (true, "User Logged in successfully.");
@@ -73,16 +73,16 @@ public class LoginService : ILoginService
         return Convert.ToBase64String(hashedBytes);
     }
 
-    private string GenerateJWTToken(string userName, string role)
+    private string GenerateJWTToken(string userName, string role, bool isRememberMe)
     {
         Claim[] claims = new[] {
             new Claim(ClaimTypes.Name, userName),
             new Claim(ClaimTypes.Role, role)
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtToken:Key"]!));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expires = DateTime.Now.AddMinutes(10);
+        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtToken:Key"]!));
+        SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        DateTime expires =  isRememberMe ? DateTime.UtcNow.AddMinutes(10) : DateTime.UtcNow.AddMinutes(1);
 
         var token = new JwtSecurityToken(
             _configuration["JwtToken:Issuer"],
